@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BloomStateManagerImpl implements BloomStateManager {
+public class BloomStateManagerImpl implements BloomStateManager<String> {
 
-    private BloomStateRepo bloomStateRepo;
+    private final BloomStateRepo bloomStateRepo;
 
     @Autowired
     public BloomStateManagerImpl(BloomStateRepo bloomStateRepo) {
@@ -21,6 +21,11 @@ public class BloomStateManagerImpl implements BloomStateManager {
     }
 
     @Override
+    public void save(String uniqueKey, BloomState bloomState) {
+        bloomState.setUniqueKey(uniqueKey);
+        this.save(bloomState);
+    }
+
     public void save(BloomState bloomState) {
         bloomStateRepo.saveAndFlush(bloomState);
     }

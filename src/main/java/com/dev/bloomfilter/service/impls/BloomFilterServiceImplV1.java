@@ -28,7 +28,7 @@ public class BloomFilterServiceImplV1<T> extends AbstractBloomService<T> impleme
             hashedValue = (hashedValue + bucketLength)%bucketLength;
             buckets[hashedValue] = true;
         }
-        bloomStateManager.save(bloomState);
+        bloomStateManager.save(uniqueKey, bloomState);
     }
 
     @Override

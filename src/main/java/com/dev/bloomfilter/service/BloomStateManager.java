@@ -6,16 +6,16 @@ import com.dev.bloomfilter.model.BloomState;
 import java.util.List;
 import java.util.Optional;
 
-public interface BloomStateManager {
+public interface BloomStateManager<T> {
 
-    void save(BloomState bloomState);
+    void save(T uniqueKey, BloomState bloomState);
 
-    Optional<BloomState> getBloomState(String uniqueKey);
+    Optional<BloomState> getBloomState(T uniqueKey);
 
-    BloomState findBloomState(String uniqueKey) throws BloomFilterException;
+    BloomState findBloomState(T uniqueKey) throws BloomFilterException;
 
     List<BloomState> getAllBloomState();
 
-    void deleteBloomState(String uniqueKey);
+    void deleteBloomState(T uniqueKey);
 
 }

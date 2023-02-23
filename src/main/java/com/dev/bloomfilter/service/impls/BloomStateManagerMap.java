@@ -12,26 +12,26 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class BloomStateManagerMap implements BloomStateManager {
+public class BloomStateManagerMap<T> implements BloomStateManager<T> {
 
-    private final Map<String, BloomState> bloomStateMap;
+    private final Map<T, BloomState> bloomStateMap;
 
-    BloomStateManagerMap() {
+    public BloomStateManagerMap() {
         this.bloomStateMap = new ConcurrentHashMap<>();
     }
 
     @Override
-    public void save(BloomState bloomState) {
-        bloomStateMap.put(bloomState.getUniqueKey(), bloomState);
+    public void save(T uniqueKey, BloomState bloomState) {
+        bloomStateMap.put(uniqueKey, bloomState);
     }
 
     @Override
-    public Optional<BloomState> getBloomState(String uniqueKey) {
+    public Optional<BloomState> getBloomState(T uniqueKey) {
         return Optional.ofNullable(bloomStateMap.get(uniqueKey));
     }
 
     @Override
-    public BloomState findBloomState(String uniqueKey) throws BloomFilterException {
+    public BloomState findBloomState(T uniqueKey) throws BloomFilterException {
         return bloomStateMap.get(uniqueKey);
     }
 
@@ -41,7 +41,7 @@ public class BloomStateManagerMap implements BloomStateManager {
     }
 
     @Override
-    public void deleteBloomState(String uniqueKey) {
+    public void deleteBloomState(T uniqueKey) {
         bloomStateMap.remove(uniqueKey);
     }
 }
